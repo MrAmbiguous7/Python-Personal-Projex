@@ -10,8 +10,8 @@ class RPGclass:
     def __str__(self):
         return f"Stats : [ Weapon type: {self.weptype} | Health : {self.health} | Mana : {self.mana} | Lvl : {self.level} | ]"
     def attack(self, target):
-        print(f'{self.name1} attacks {target}')
         self.target = target
+        print(f'{self.name1} attacks {target}')
     def tookdamage(self, dmg):
         self.health -= dmg
         print(f"{self.name1} took {dmg} damage. Current health: {self.health}")
@@ -55,16 +55,22 @@ class Event():
     def changeloc(self, locationindex):
         self.locationindex = locationindex
         locationindex += 1
+userchoice = input("0 or w to play")
+while userchoice == 'w':
+    Userset = character_set_1
 
-
-print(character_set_1)
-userevent = Event(0)
-print(userevent)
-userinput = input("1) Attack , 2) Flee")
-if userinput == '1':
-    print(f"The demon you attacked has the health : {demon_enemy_l1.checkhealth()}")
-    print(f"The second demon is at {demon_enemy2_l1.checkhealth()}")
-    print(f"The second demon
+    print(Userset)
+    userevent = Event(0)
+    print(userevent)
+    userinput = input("1) Attack , 2) Flee")
+    if userinput == '1':
+        demon_enemy_l1.tookdamage(Userset.physdam)
+        print(f"The second demon is at {demon_enemy2_l1.checkhealth()}, and attacks you!")
+        Userset.tookdamage(demon_enemy2_l1.physdam)
+        break
+    else:
+        print("You walk away.")
+        break
 '''
 def main():
     try:
