@@ -1,5 +1,8 @@
 import random
 
+WeptypeDict = {"Blunt": .06, "Blade": .08, "Wand": .03}
+
+DamageSetsClass = {"Warrior":random.randint(20,31), "Assassin":random.randint(20,27), "Mage" : random.randint(22,35)}
 class RPGclass:
     def __init__(self, name1, weptype, health, mana,):
         self.name1 = name1 
@@ -12,6 +15,33 @@ class RPGclass:
     def attack(self, target):
         self.target = target
         print(f'{self.name1} attacks {target}')
+    def calculatedamagetaken(self.weptype, self.target.weptype, self.physdam or self.sneakdam or self.magdam, target.physdam or target.sneakdam or target.magdam):
+        if self.weptype == "Blunt" and self.target.weptype == "Blade":
+            dmg = (WeptypeDict["Blade"] * 100) + DamageSetsClass["Assassin"]
+            return dmg
+        elif self.weptype == "Blunt" and self.target.weptype == "Blunt":
+            dmg = DamageSetsClass["Warrior"]
+            return dmg
+        elif self.weptype == "Blunt" and self.target.weptype == "Wand":
+            dmg = DamageSetsClass["Mage"]
+        elif self.weptype == "Blade" and self.target.weptype == "Wand":
+            dmg = (WeptypeDict["Wand"] * 100) + DamageSetsClass["Mage"]
+            return dmg
+        elif self.weptype == "Blade" and self.target.weptype == "Blade":
+            dmg = DamageSetsClass["Assassin"]
+            return dmg
+        elif self.weptype == "Blade" and self.target.weptype == "Blunt":
+            dmg = DamageSetsClass["Warrior"]
+            return dmg
+        elif self.weptype == "Wand" and self.target.weptype == "Blunt":
+            dmg = (WeptypeDict["Blade"] * 100) + DamageSetsClass["Warrior"]
+            return dmg
+        elif self.weptype == "Wand" and self.target.weptype == "Wand":
+            dmg = DamageSetsClass["Mage"]
+            return dmg
+        elif self.weptype == "Wand" and self.target.weptype == "Blade":
+            dmg = DamageSetsClass["Assassin"]
+            return dmg
     def tookdamage(self, dmg):
         self.health -= dmg
         print(f"{self.name1} took {dmg} damage. Current health: {self.health}")
@@ -20,7 +50,7 @@ class RPGclass:
             return f"Dead"
         else:
             return f"{self.health}"
-    
+   
 class warrior(RPGclass):
     def __init__(self, name1, weptype, health, mana, physdam):
         super().__init__(name1, weptype, health, mana,)
@@ -39,12 +69,12 @@ class demon_l1(RPGclass):
         self.physdam = 10
 
 
-character_set_1 = warrior("Brun","Blunt",100,5,20)
-character_set_2 = assassin("Helon","Blade",80,10,27)
-character_set_3 = mage("SureFire","Wand",60,40,33)
+'''
+Need to add: algorithm to change damage values based on weapon type
+Need to add: logic to determine how much each person's damage is based on type and target
+Need to add: misc other things -- will add as I go... will also be writing comments for the code soon
 
-demon_enemy_l1 = demon_l1("Killer", "Blunt", 20, 0, 10)
-demon_enemy2_l1 = demon_l1("Ripper", "Blunt",20, 0, 10)
+'''
 
 class Event():
     def __init__(self, locationindex):
@@ -55,6 +85,20 @@ class Event():
     def changeloc(self, locationindex):
         self.locationindex = locationindex
         locationindex += 1
+        if locationindex == 3:
+            locationindex == 0
+    
+
+
+character_set_1 = warrior("Brun","Blunt",100,5,DamageSetsClass["Warrior"])
+
+character_set_2 = assassin("Helon","Blade",80,10,DamageSetsClass["Assassin"])
+character_set_3 = mage("SureFire","Wand",60,40,DamageSetsClass["Mage"])
+
+demon_enemy_l1 = demon_l1("Killer", "Blunt", 20, 0, 10)
+demon_enemy2_l1 = demon_l1("Ripper", "Blunt",20, 0, 10)
+
+'''
 userchoice = input("0 or w to play")
 while userchoice == 'w':
     Userset = character_set_1
@@ -71,6 +115,7 @@ while userchoice == 'w':
     else:
         print("You walk away.")
         break
+'''
 '''
 def main():
     try:
