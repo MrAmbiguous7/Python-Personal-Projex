@@ -1,7 +1,6 @@
 import random
 
 WeptypeDict = {"Blunt": .06, "Blade": .08, "Wand": .03}
-
 DamageSetsClass_p = {"Warrior":random.randint(20,31), "Assassin":random.randint(20,27), "Mage" : random.randint(22,35)}
 BaseClassNums = {"Warrior": ["Brun", "Blunt", 100, 5], "Assassin": ["Heron", "Blade", 75, 15], "Mage": ["SureFire", "Wand", 60, 50]}
 class RPGclass:
@@ -16,30 +15,51 @@ class RPGclass:
     def attack(self, target):
         self.target = target
         print(f'{self.name1} attacks {target}')
-    def calculatedamagetaken(self, sweptype, tweptype, tlevel):
+    def calculatedamagetaken(self, sweptype, tweptype, tlevel, location, in_dam):
         if sweptype == "Blunt" and tweptype == "Blade":
-            dmg = (WeptypeDict["Blade"] * 100) + DamageSetsClass_p["Assassin"] + ((tlevel-1) * 5)
+            dmg = (WeptypeDict["Blade"] * 100) + in_dam + ((tlevel-1) * 5)
+            if location == "Castle":
+                dmg -= 9 - (tlevel)
             return dmg
         elif sweptype == "Blunt" and tweptype == "Blunt":
-            dmg = DamageSetsClass_p["Warrior"] + ((tlevel-1) * 5)
+            dmg = in_dam + ((tlevel-1) * 5)
+            if location == "Castle":
+                dmg -= 9 - (tlevel)
             return dmg
         elif sweptype == "Blunt" and tweptype == "Wand":
-            dmg = DamageSetsClass_p["Mage"] + ((tlevel-1) * 5)
+            dmg = in_dam + ((tlevel-1) * 5)
+            if location == "Castle":
+                dmg -= 9 - (tlevel)
             return dmg
         elif sweptype == "Blade" and tweptype == "Wand":
-            dmg = (WeptypeDict["Wand"] * 100) + DamageSetsClass_p["Mage"] + ((tlevel-1) * 5)
+            dmg = (WeptypeDict["Wand"] * 100) + in_dam + ((tlevel-1) * 5)
+            if location == "Forest":
+                dmg -= 9 - (tlevel)
             return dmg
         elif sweptype == "Blade" and tweptype == "Blade":
-            dmg = DamageSetsClass_p["Warrior"] + ((tlevel-1) * 5)
+            dmg = in_dam + ((tlevel-1) * 5)
+            if location == "Forest":
+                dmg -= 9 - (tlevel)
+            return dmg
+        elif sweptype == "Blade" and tweptype == "Blunt":
+            dmg = in_dam + ((tlevel-1) * 5)
+            if location == "Forest":
+                dmg -= 9 - (tlevel)
             return dmg
         elif sweptype == "Wand" and tweptype == "Blunt":
-            dmg = (WeptypeDict["Blade"] * 100) + DamageSetsClass_p["Warrior"] + ((tlevel-1) * 5)
+            dmg = (WeptypeDict["Blade"] * 100) + in_dam + ((tlevel-1) * 5)
+            if location == "Pond":
+                dmg -= 9 - (tlevel)
             return dmg
         elif sweptype == "Wand" and tweptype == "Wand":
-            dmg = DamageSetsClass_p["Mage"] + ((tlevel-1) * 5)
+            dmg = in_dam + ((tlevel-1) * 5)
+            if location == "Pond":
+                dmg -= 9 - (tlevel)
             return dmg
         elif sweptype == "Wand" and tweptype == "Blade":
-            dmg = DamageSetsClass_p["Assassin"] + ((tlevel-1) * 5)
+            dmg = in_dam + ((tlevel-1) * 5)
+            if location == "Pond":
+                dmg -= 9 - (tlevel)
             return dmg
     def tookdamage(self, dmg):
         self.health -= dmg
@@ -75,6 +95,7 @@ Need to add: misc other things -- will add as I go... will also be writing comme
 
 '''
 
+
 class Event():
     def __init__(self, locationindex):
         self.locationindex = locationindex
@@ -86,20 +107,29 @@ class Event():
         locationindex += 1
         if locationindex == 3:
             locationindex = 0
+            '''
 ftest1 = BaseClassNums["Warrior"]
 test1 = warrior(*ftest1, DamageSetsClass_p["Warrior"])
 print(test1.physdam)
 print(test1)
-
 '''
-character_set_1 = warrior("Brun","Blunt",100,5,DamageSetsClass["Warrior"])
+war_i = BaseClassNums["Warrior"]
+war_c = warrior(BaseClassNums["Warrior"], DamageSetsClass_p["Warrior"]) 
+as_i = BaseClassNums["Assassin"]
+as_c = assassin(BaseClassNums["Assassn"], DamageSetsClass_p["Assassin"])
+mag_i = BaseClassNums["Mage"]
+mag_c = mage(BaseClassNums["Mage"], DamageSetsClass_p["Mage"])
+userchoicelist = ["w"."a","m"]
+userchoice = input("q to quit, w for warrior, a for assassin, m for mage")
+while userchoice == "w" or "a" or "m":
+    if userchoice ==  "w":
 
-character_set_2 = assassin("Helon","Blade",80,10,DamageSetsClass["Assassin"])
-character_set_3 = mage("SureFire","Wand",60,40,DamageSetsClass["Mage"])
+        userset = 
 
-demon_enemy_l1 = demon_l1("Killer", "Blunt", 20, 0, 10)
-demon_enemy2_l1 = demon_l1("Ripper", "Blunt",20, 0, 10)
-'''
+
+
+
+
 '''
 userchoice = input("0 or w to play")
 while userchoice == 'w':
