@@ -127,6 +127,13 @@ war_c = warrior(*BaseClassNums["Warrior"], DamageSetsClass_p["Warrior"])
 as_c = assassin(*BaseClassNums["Assassin"], DamageSetsClass_p["Assassin"])
 mag_c = mage(*BaseClassNums["Mage"], DamageSetsClass_p["Mage"])
 userchoicelist = ["w","a","m"]
+'''
+To-Do:
+fix bug - when running next line as q to quit, the rest of the program runs in errror
+create more abstraction for if and w as functions* 
+BIG; create a turn for the enemy player
+clean up old testing lines
+'''
 userchoice = input("q to quit, w for warrior, a for assassin, m for mage")
 userevent = Event(2)
 while userchoice == "w" or "a" or "m":
