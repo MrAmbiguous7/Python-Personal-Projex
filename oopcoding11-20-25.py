@@ -105,7 +105,7 @@ class Event():
     def __str__(self):
         return f"You walk down the path and you come upon a {self.LOCATIONS[self.locationindex]}\n Then you see two enemies! What do you do?"
     def changeloc(self, locationindex):
-        self.locationindex = locationindex
+        super().__init__(locationindex)
         locationindex += 1
         if locationindex == 3:
             locationindex = 0
@@ -137,8 +137,8 @@ userchoicelist = ["w","a","m"]
 
 '''
 To-Do:
-fix bug - when running next line as q to quit, the rest of the program runs in errror
-create more abstraction for if and w as functions* 
+fix bug - when running next line as q to quit, the rest of the program runs in errror 12/07/25 -- FIXED
+create more abstraction for if and w as functions* 12/07/25 -- PROGRESSED 
 BIG; create a turn for the enemy player
 clean up old testing lines
 '''
@@ -148,11 +148,11 @@ userevent = Event(2)
 try:
     userchoice = input("q to quit, w for warrior, a for assassin, m for mage")
     userevent = Event(2)
+    if userchoice == "q":
+        pass
     while userchoice == "w" or "a" or "m":
         userset = determineuserset(userchoice)
-        userevent.locationindex += 1
-        if userevent.locationindex == 3:
-            userevent.locationindex = 0
+        userevent.changeloc()
         print(userset)
         print(userset.level)
         print(userevent)
