@@ -131,16 +131,21 @@ def determineuserset(x):
     elif x == "m":
         y = mag_c
     return y
-def checkisdead(health, name):
-    if health == 0:
-        return f"{name} died"
-    elif health > 0:
-        return False
 war_c = warrior(*BaseClassNums["Warrior"], DamageSetsClass_p["Warrior"]) 
 as_c = assassin(*BaseClassNums["Assassin"], DamageSetsClass_p["Assassin"])
 mag_c = mage(*BaseClassNums["Mage"], DamageSetsClass_p["Mage"])
 userchoicelist = ["w","a","m"]
-
+def isuserdead(userhealth):
+    if userhealth == 0:
+        return True
+    elif userhealth != 0:
+        return False
+def gameovermessage(isuserdead):
+    if isuserdead == True:
+        print("Game over")
+        sys.exit(0)
+    elif isuserdead == False:
+        return
 '''
 To-Do:
 fix bug - when running next line as q to quit, the rest of the program runs in errror
@@ -157,6 +162,7 @@ elif userchoice != "q" and userchoice == "w" or userchoice == "a" or userchoice 
     userset = determineuserset(userchoice)
     userevent = Event(2)
 while userchoice == "w" or "a" or "m":
+    userdead = isuserdead(userset.health)
     userevent.locationindex += 1
     if userevent.locationindex == 3:
         userevent.locationindex = 0
@@ -242,7 +248,7 @@ while userchoice == "w" or "a" or "m":
                     dmgtakenuserai2 = userset.calculatedamagetaken(userset.weptype, ai2.weptype, ai2.level, userevent.LOCATIONS[userevent.locationindex], ai2dam)
                     userset.tookdamage(dmgtakenuserai2)
                 elif ai2.health > 0 and ai1.health > 0:
-                    dmgtakenuserai2 = userset.calculatedamagetaken(userset.weptype, ai2.weptype, ai2.level, userevent.LOCATIONS[userevent.locationindex], ai2dam)
+                    dmgtakenai2 = ai2.calculatedamagetaken(ai2.weptype, user.weptype, user.level, userevent.LOCATIONS[userevent.locationindex], userdam)
                     ai2.tookdamage(dmgtakenai2)
                     if ai2.health == 0:
                         print(f"Good job you have slain {ai2.name1}")
@@ -250,8 +256,10 @@ while userchoice == "w" or "a" or "m":
                         print(f"Experience gained. New player level : {userset.level}")
                         dmgtakenuserai1 = userset.calculatedamagetaken(userset.weptype, ai1.weptype, ai1.level, userevent.LOCATIONS[userevent.locationindex], ai1dam)
                         userset.tookdamage(dmgtakenuserai1)
-
-                        
+        if userset.health == 0:
+            print("Game over")
+            sys.exit(0)
+                               
 
 '''
 userchoice = input("0 or w to play")
