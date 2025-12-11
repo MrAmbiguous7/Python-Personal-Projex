@@ -1,3 +1,10 @@
+'''
+This is entirely developed by Jacob Porter Banks ; Trintis RPG
+
+'''
+
+
+
 import random
 import sys
 
@@ -91,14 +98,6 @@ class demon_l1(RPGclass):
         self.physdam = 10
 
 
-'''
-Need to add: algorithm to change damage values based on weapon type
-Need to add: logic to determine how much each person's damage is based on type and target
-Need to add: misc other things -- will add as I go... will also be writing comments for the code soon
-
-'''
-
-
 class Event():
     def __init__(self, locationindex):
         self.locationindex = locationindex
@@ -110,12 +109,8 @@ class Event():
         locationindex += 1
         if locationindex == 3:
             locationindex = 0
-            '''
-ftest1 = BaseClassNums["Warrior"]
-test1 = warrior(*ftest1, DamageSetsClass_p["Warrior"])
-print(test1.physdam)
-print(test1)
-'''
+
+
 def generateai(userlevel):
     ai_warrior = warrior("Mauler", "Blunt", 20 + (2 * (userlevel-1)), 5, random.randint(10,20) + (userlevel*2))  
     ai_assassin = assassin("Slicer", "Blade", 20 + (2 * (userlevel-1)), 15, random.randint(12,19) + (userlevel*2))
@@ -123,6 +118,7 @@ def generateai(userlevel):
     ai_list = [ai_warrior, ai_assassin, ai_mage]
     randindex = random.randint(0,2)
     return ai_list[randindex]
+
 def determineuserset(x):
     if x ==  "w":
         y = war_c
@@ -146,13 +142,7 @@ def gameovermessage(isuserdead):
         sys.exit(0)
     elif isuserdead == False:
         return
-'''
-To-Do:
-fix bug - when running next line as q to quit, the rest of the program runs in errror
-create more abstraction for if and w as functions* 
-BIG; create a turn for the enemy player
-clean up old testing lines
-'''
+
 userchoice = input("q to quit, w for warrior, a for assassin, m for mage")
 if userchoice != "q" and userchoice != "w" and userchoice != "a" and userchoice != "m":
     print("Error, you must input q w a or m")
@@ -260,43 +250,3 @@ while userchoice == "w" or "a" or "m":
             print("Game over")
             sys.exit(0)
                                
-
-'''
-userchoice = input("0 or w to play")
-while userchoice == 'w':
-    Userset = character_set_1
-
-    print(Userset)
-    userevent = Event(0)
-    print(userevent)
-    userinput = input("1) Attack , 2) Flee")
-    if userinput == '1':
-        demon_enemy_l1.tookdamage(Userset.physdam)
-        print(f"The second demon is at {demon_enemy2_l1.checkhealth()}, and attacks you!")
-        Userset.tookdamage(demon_enemy2_l1.physdam)
-        break
-    else:
-        print("You walk away.")
-        break
-'''
-'''
-def main():
-    try:
-        userin = input("What class would you like to play as? (w)arrior , (a)ssassin , (m)age ?  (q) to quit")
-        if userin == 'q':
-            print("goodbye")
-        elif userin == 'w':
-            print(character_set_1)
-            event = Event(0)
-            print(event)
-        elif userin == 'a':
-            print(character_set_2)
-            event = Event(1)
-        elif userin == 'm':
-            print(character_set_3)
-            event = Event(2)
-
-    except ValueError as valerr:
-        print("You produced a {valerr} , you should input w,a,m, or q.")
-'''
-
