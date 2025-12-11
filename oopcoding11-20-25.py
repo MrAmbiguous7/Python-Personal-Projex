@@ -10,7 +10,7 @@ class RPGclass:
         self.weptype = weptype
         self.health = health
         self.mana = mana
-        self.level = 1
+        self.level = 1.0
     def __str__(self):
         return f"Stats : [ Weapon type: {self.weptype} | Health : {self.health} | Mana : {self.mana} | Lvl : {self.level} | ]"
     def attack(self, target):
@@ -132,7 +132,7 @@ def determineuserset(x):
         y = mag_c
     return y
 def checkisdead(health, name):
-    if health = 0:
+    if health == 0:
         return f"{name} died"
     elif health > 0:
         return False
@@ -148,9 +148,8 @@ create more abstraction for if and w as functions*
 BIG; create a turn for the enemy player
 clean up old testing lines
 '''
-
 userchoice = input("q to quit, w for warrior, a for assassin, m for mage")
-if userchoice != "q" or userchoice != "w" or userchoice != "a" or userchoice != "m":
+if userchoice != "q" and userchoice != "w" and userchoice != "a" and userchoice != "m":
     print("Error, you must input q w a or m")
 elif userchoice == "q":
     print("Goodbye")
@@ -163,8 +162,26 @@ while userchoice == "w" or "a" or "m":
         userevent.locationindex = 0
     print(userset)
     print(userevent)
+    if userset.weptype == "Blunt":
+        userdam = userset.physdam
+    elif userset.weptype == "Blade":
+        userdam = userset.sneakdam
+    elif userset.weptype == "Wand":
+        userdam = userset.magdam
     ai1 = generateai(userset.level)
+    if ai1.weptype == "Blunt":
+        ai1dam = ai1.physdam
+    elif ai1.weptype == "Blade":
+        ai1dam = ai1.sneakdam
+    elif ai1.weptype == "Wand":
+        ai1dam = ai1.magdam
     ai2 = generateai(userset.level)
+    if ai2.weptype == "Blunt":
+        ai2dam = ai2.physdam
+    elif ai2.weptype == "Blade":
+        ai2dam = ai2.sneakdam
+    elif ai2.weptype == "Wand":
+        ai2dam = ai2.magdam
     while True:
         ingamechoice = input("1) attack | 2) rest(for mana) | 3) quit |")
         if ingamechoice == "3":
@@ -173,45 +190,68 @@ while userchoice == "w" or "a" or "m":
         elif ingamechoice == "2":
             if userset.weptype == "Wand" and userset.mana < 30:
                 userset.mana += 20
-            pass
+            if ai1.health > 0 and ai2.health > 0:
+                dmgtakenuserai1 = userset.calculatedamagetaken(userset.weptype, ai1.weptype, ai1.level, userevent.LOCATIONS[userevent.locationindex], ai1dam)
+                userset.tookdamage(dmgtakenuserai1)
+            elif ai1.health == 0 and ai2.health > 0:
+                dmgtakenuserai2 = userset.calculatedamagetaken(userset.weptype, ai2.weptype, ai2.level, userevent.LOCATIONS[userevent.locationindex], ai2dam)
+                userset.tookdamage(dmgtakenuserai2)
         elif ingamechoice == "1":
             targetselect = input("Aim attack at target 1 or 2 ? (input 1 or 2)")
             if targetselect == "1":
-                dmgtakenai1 = ai1.calculatedamagetaken(ai1.weptype, userset.weptype, userset.level, userevent.LOCATIONS[userevent.locationindex], userset.physdam or userset.sneakdam or userset.magdam)
-                ai1.tookdamage(dmgtakenai1)
-                if ai1.health == 0:
-                    print(f"You have killed {ai1.name1}")
-                    if ai2.health == 0:
-                        print("They are both dead")
-                        break
                 if ai1.health == 0 and ai2.health > 0:
-                    dmgtakenuserai2 = userset.calculatedamagetaken(userset.weptype, ai2.weptype, ai2.level, userevent.LOCATIONS[userevent.locationindex], ai2.physdam or ai2.sneakdam or ai2.magdam)
+                    print("you have already killed this one")
+                    dmgtakenuserai2 = userset.calculatedamagetaken(userset.weptype, ai2.weptype, ai2.level, userevent.LOCATIONS[userevent.locationindex], ai2dam)
                     userset.tookdamage(dmgtakenuserai2)
                 elif ai1.health > 0 and ai2.health == 0:
-                    dmgtakenuserai1 = userset.calculatedamagetaken(userset.weptype, ai1.weptype, ai1.level, userevent.LOCATIONS[userevent.locationindex], ai1.physdam or ai1.sneakdam or ai1.magdam)
+                    dmgtakenai1 = ai1.calculatedamagetaken(ai1.weptype, userset.weptype, userset.level, userevent.LOCATIONS[userevent.locationindex], userdam)
+                    ai1.tookdamage(dmgtakenai1)
+                    if ai1.health == 0:
+                        print("Good job you passed this level!")
+                        userset.level += 0.25
+                        print(f"Experience gained. New player level : {userset.level}") 
+                        break
+                    dmgtakenuserai1 = userset.calculatedamagetaken(userset.weptype, ai1.weptype, ai1.level, userevent.LOCATIONS[userevent.locationindex], ai1dam)
                     userset.tookdamage(dmgtakenuserai1)
                 elif ai1.health > 0 and ai2.health > 0:
-                    dmgtakenuserai1 = userset.calculatedamagetaken(userset.weptype, ai1.weptype, ai1.level, userevent.LOCATIONS[userevent.locationindex], ai1.physdam or ai1.sneakdam or ai1.magdam)
-                    userset.tookdamage(dmgtakenuserai1)
-                ingamechoice = input("1) attack | 2) rest(for mana) | 3) quit |")
-            elif targetselect == "2":
-                dmgtakenai2 = ai2.calculatedamagetaken(ai2.weptype, userset.weptype, userset.level, userevent.LOCATIONS[userevent.locationindex], userset.physdam or userset.sneakdam or userset.magdam)
-                ai2.tookdamage(dmgtakenai2)
-                if ai2.health == 0:
-                    print(f"You have killed {ai2.name1}")
+                    dmgtakenai1 = ai1.calculatedamagetaken(ai1.weptype, userset.weptype, userset.level, userevent.LOCATIONS[userevent.locationindex], userdam)
+                    ai1.tookdamage(dmgtakenai1)
                     if ai1.health == 0:
-                        print("They are both dead")
-                        userset.level += 1
-                        break
+                        print(f"Good job you have slain {ai1.name1}!")
+                        userset.level += 0.25
+                        print(f"Experience gained. New player level : {userset.level}")
+                        dmgtakenuserai2 = userset.calculatedamagetaken(userset.weptype, ai2.weptype, ai2.level, userevent.LOCATIONS[userevent.locationindex], ai2dam)
+                        userset.tookdamage(dmgtakenuserai2)
+                    elif ai1.health > 0:
+                        dmgtakenuserai1 = userset.calculatedamagetaken(userset.weptype, ai1.weptype, ai1.level, userevent.LOCATIONS[userevent.locationindex], ai1dam)
+                        userset.tookdamage(dmgtakenuserai1)
+            elif targetselect == "2":
                 if ai2.health == 0 and ai1.health > 0:
-                    dmgtakenuserai1 = userset.calculatedamagetaken(usetset.weptype, ai1.weptype, ai1.level, userevent.LOCATIONS[userevent.locationindex], ai1.physdam or ai1.sneakdam or ai1.magdam)
+                    print("you have already killed this one")
+                    dmgtakenuserai1 = userset.calculatedamagetaken(usetset.weptype, ai1.weptype, ai1.level, userevent.LOCATIONS[userevent.locationindex], ai1dam)
                     userset.tookdamage(dmgtakenuserai1)
                 elif ai2.health > 0 and ai1.health == 0:
-                    dmgtakenuserai2 = userset.calculatedamagetaken(userset.weptype, ai2.weptype, ai2.level, userevent.LOCATIONS[userevent.locationindex], ai2.physdam or ai2.sneakdam or ai2.magdam)
+                    dmgtakenai2 = ai2.calculatedamagetaken(ai2.weptype, userset.weptype, userset.level, userevent.LOCATIONS[userevent.locationindex], userdam)
+                    ai2.tookdamage(dmgtakenai2)
+                    if ai2.health == 0:
+                        print(f"Good job you passed this level")
+                        userset.level += 0.25
+                        print(f"Experience gained. New player level : {userset.level}")
+                        break
+
+                    dmgtakenuserai2 = userset.calculatedamagetaken(userset.weptype, ai2.weptype, ai2.level, userevent.LOCATIONS[userevent.locationindex], ai2dam)
                     userset.tookdamage(dmgtakenuserai2)
                 elif ai2.health > 0 and ai1.health > 0:
-                    dmgtakenuserai2 = userset.calculatedamagetaken(userset.weptype, ai2.weptype, ai2.level, userevent.LOCATIONS[userevent.locationindex], ai2.physdam or ai2.sneakdam or ai2.magdam)
-                ingamechoice = input("1) attack | 2) rest(for mana) | 3) quit |")
+                    dmgtakenuserai2 = userset.calculatedamagetaken(userset.weptype, ai2.weptype, ai2.level, userevent.LOCATIONS[userevent.locationindex], ai2dam)
+                    ai2.tookdamage(dmgtakenai2)
+                    if ai2.health == 0:
+                        print(f"Good job you have slain {ai2.name1}")
+                        userset.level += 0.25
+                        print(f"Experience gained. New player level : {userset.level}")
+                        dmgtakenuserai1 = userset.calculatedamagetaken(userset.weptype, ai1.weptype, ai1.level, userevent.LOCATIONS[userevent.locationindex], ai1dam)
+                        userset.tookdamage(dmgtakenuserai1)
+
+                        
 
 '''
 userchoice = input("0 or w to play")
